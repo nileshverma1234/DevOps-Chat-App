@@ -2,9 +2,12 @@ const express =require('express');
 const dotenv =require("dotenv");
 const { chats } =require("./data/data");
 const connectDB = require('./config/db');
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 const app = express();
+
+app.use(express.json()); //to accept JSON data
 
 connectDB();
 
@@ -13,9 +16,12 @@ app.get('/', (req, res) => {
 
 })
 
+app.use('/api/user',userRoutes);
+
 app.get('/api/chat',(req,res) => {
     res.send(chats);
 })
+
 
 
 app.get('/api/chat/:id',(req,res)=>{
@@ -25,6 +31,8 @@ app.get('/api/chat/:id',(req,res)=>{
     res.send(singlechat);
 
 });
+
+
 
 const PORT= process.env.PORT || 5000
 
