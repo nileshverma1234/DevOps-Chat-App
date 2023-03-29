@@ -1,5 +1,8 @@
-import React from 'react'
-import { VStack,FormControl,FormLabel,InputGroup, InputRightElement,Button, } from '@chakra-ui/react';
+// import React from 'react'
+import { Button } from "@chakra-ui/button";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { VStack } from "@chakra-ui/layout";
 import { useState } from "react";
 
 const Login =()=>{

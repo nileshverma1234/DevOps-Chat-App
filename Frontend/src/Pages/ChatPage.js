@@ -13,4 +13,4 @@ Chat page
 </div>
 )
 }
-export default ChatPage
+export default ChatPage;
