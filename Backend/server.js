@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user',userRoutes);
-
+// check
 // app.get('/api/chat',(req,res) => {
 //     res.send(chats);
 // })
