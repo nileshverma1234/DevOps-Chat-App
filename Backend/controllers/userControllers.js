@@ -39,12 +39,12 @@ const registerUser = asyncHandler(async (req,res) => {
     }
 });
 
-const authUser = asyncHandler(async(req,res)=>{
+const authUser = asyncHandler(async(req,res)=> {
     const{email,password} = req.body;
 
     const user = await User.findOne({ email });
 
-    if (user && (await User.matchPassword(password))) {
+    if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user._id,
             name: user.name,
@@ -54,7 +54,7 @@ const authUser = asyncHandler(async(req,res)=>{
             token: generateToken(user._id),
         });
     }
-})
+});
 
 
 module.exports = { registerUser, authUser };
