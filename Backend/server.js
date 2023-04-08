@@ -19,20 +19,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user',userRoutes);
-// check
-// app.get('/api/chat',(req,res) => {
-//     res.send(chats);
-// })
-
-
-
-// app.get('/api/chat/:id',(req,res)=>{
-//     // console.log(req.params.id);
-
-//     const singlechat = chats.find((c)=>c._id === req.params.id);
-//     res.send(singlechat);
-
-// });
+app.use('/api/chat',chatRoutes);
 
 
 app.use(notFound);
