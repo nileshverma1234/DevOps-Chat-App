@@ -35,7 +35,7 @@ const Signup = () => {
     }
     if (password !== confirmpassword) {
       toast({
-        title: "Passwords Do Not Matchq
+        title: "Passwords Do Not Match",
         status: "warning",
         duration: 5000,
         isClosable: true,
