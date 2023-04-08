@@ -4,6 +4,9 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { useState } from "react";
+import { useToast } from '@chakra-ui/react';
+
+
 const Signup =()=>{
     const [show,setShown]=useState(false);
     const [name,setName]=useState();
@@ -13,8 +16,56 @@ const Signup =()=>{
     const [pic,setPic]=useState();
     const handleClick=()=> setShown(!show);
     const submitHandler=()=> setShown(!show);
+    const [loading,setLoading]=useState(false);
+    const toast = useToast() 
 
-    const postDetails=(pics)=>{};
+    const postDetails=(pics)=>{
+        setLoading(true);
+        if(pic === undefined){
+            toast({
+                title: 'Please select an image',               
+                status: 'Warning',
+                duration: 5000,
+                isClosable: true,
+                position:"bottom",
+              });
+              return;
+        }
+        if(pics.type==="image/jpeg" || pics.type==="image/png"){
+            const data=new FormData();
+            data.append("file",pics);
+            data.append("upload_preset","chat-app");
+            data.append("cloud_name","dmywuodaf");
+            fetch("https://api.cloudinary.com/v1_1/dmywuodaf/image/upload",{
+                method:'post',
+                body:data,
+
+            })
+            .then((res)=> res.json())
+            .then((data)=>{
+                setPic(data.url.toString());
+                setLoading(false);
+            })
+            .catch((err)=>{
+                console.log(err);
+                setLoading(false);
+            });
+
+        }
+        else{
+            toast({
+                title: 'Please select an image',
+                status: 'Warning',
+                duration: 5000,
+                isClosable: true,
+                position:"bottom",
+              });
+              setLoading(false);
+              return;
+        }
+    };
+
+
     return(
         <VStack spacing='5px' color="black">
         <FormControl id="first-name" isRequired>
@@ -81,10 +132,11 @@ const Signup =()=>{
         </FormControl>
 
         <Button
-        colorScheme="blue"
+        // colorScheme="red"
         width="100%"
         style={{maeginTop:15}}
         onClick={submitHandler}
+        isLoading={loading}
         >
             Sign Up
         </Button>
