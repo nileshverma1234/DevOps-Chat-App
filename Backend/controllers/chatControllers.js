@@ -182,4 +182,4 @@ const createGroupChat = asyncHandler(async (req, res) => {
 
 
 module.exports = {accessChat,
-fetchChats,createGroupChat,renameGroup,addToGroup,removeFromGroup};
+fetchChats,createGroupChat};
