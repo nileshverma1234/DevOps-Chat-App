@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -15,7 +15,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-const ProfileModel = ({ user, children }) => {
+const ProfileModal = ({ user, children }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -65,4 +65,4 @@ const ProfileModel = ({ user, children }) => {
     );
 }
 
-export default ProfileModel;
+export default ProfileModal;
