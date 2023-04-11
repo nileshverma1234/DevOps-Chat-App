@@ -19,7 +19,7 @@ import {
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useState } from "react";
-import ProfileModal from "./ProfileModal";
+import ProfileModel from "./ProfileModel";
 import { ChatState } from "../../Context/ChatProvider";
 import { useHistory } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -27,6 +27,8 @@ import { Input } from "@chakra-ui/input";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
+import { Spinner } from "@chakra-ui/spinner";
+import UserListItem from "../userAvatar/UserListItem";
 
 
 const SideDrawer = () => {
@@ -159,9 +161,9 @@ const SideDrawer = () => {
               />
           </MenuButton>
           <MenuList>
-            <ProfileModal user={user}>
+            <ProfileModel user={user}>
                 <MenuItem>My Profile</MenuItem>{" "}
-            </ProfileModal>
+            </ProfileModel>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
           </MenuList>
