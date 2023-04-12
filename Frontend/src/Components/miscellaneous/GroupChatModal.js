@@ -97,7 +97,7 @@ import {
           },
         };
         const { data } = await axios.post(
-          `/api/chat/group`,
+          "/api/chat/group",
           {
             name: groupChatName,
             users: JSON.stringify(selectedUsers.map((u) => u._id)),
@@ -156,7 +156,7 @@ import {
                   onChange={(e) => handleSearch(e.target.value)}
                 />
               </FormControl>
-              <Box w="100%" display="flex" flexWrap="wrap">
+              <Box w="100%" display ="flex" flexWrap="wrap">
                 {selectedUsers.map((u) => (
                   <UserBadgeItem
                     key={u._id}
