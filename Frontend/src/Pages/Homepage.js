@@ -2,8 +2,9 @@ import React from "react" ;
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container,Box,Text,Tabs,TabList,Tab,TabPanel,TabPanels } from "@chakra-ui/react";
-import Login from "../Components/Authentication/Login";
-import Signup from "../Components/Authentication/Signup";
+import Login from "../components/Authentication/Login";
+import Signup from "../components/Authentication/Signup";
+
 const Homepage = ()=> {
     const history = useHistory();
     useEffect(() => {
@@ -34,15 +35,15 @@ const Homepage = ()=> {
         bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px"
         >
             <Tabs variant='soft-rounded'>
-  <TabList>
-    <Tab width="50%">Login</Tab>
-    <Tab width="50%">Sign Up</Tab>
-  </TabList>
-  <TabPanels>
-    <TabPanel> <Login/> </TabPanel>
-    <TabPanel> <Signup/>     </TabPanel>
-  </TabPanels>
-</Tabs>
+                <TabList>
+                <Tab width="50%">Login</Tab>
+                <Tab width="50%">Sign Up</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel> <Login/> </TabPanel>
+                    <TabPanel> <Signup/>     </TabPanel>
+                </TabPanels>
+            </Tabs>
 
         </Box>
     </Container>;
