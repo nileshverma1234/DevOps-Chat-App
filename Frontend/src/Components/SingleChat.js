@@ -1,12 +1,21 @@
 import { Box, Text} from "@chakra-ui/layout"
-import { IconButton } from '@chakra-ui/react'
+import { IconButton, Spinner, useToast } from '@chakra-ui/react'
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import React from 'react';
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
+import { FormControl } from "@chakra-ui/form-control";
 
 const SingleChat = ({fetchAgain, setFetchAgain}) => {
+
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [newMessage, setNewMessage] = useState("");
+    const [socketConnected, setSocketConnected] = useState(false);
+    const [typing, setTyping] = useState(false);
+    const [istyping, setIsTyping] = useState(false);
+    const toast = useToast(); 
 
    const { user, selectedChat, setSelectedChat} = ChatState(); 
    return (
@@ -56,7 +65,23 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
                     overflowY="hidden"
                 
                 >
-                    {/* {Messages Here} */}
+                    {loading ? (
+                        <Spinner
+                        size="xl"
+                        w={20}
+                        h={20}
+                        alignSelf="center"
+                        margin="auto"
+                        />
+                    ):(
+                        <div>
+                            {/* message */}
+                        </div>
+                    )}
+
+                    <FormControl>
+                        
+                    </FormControl>
                 </Box>
             </>
         ) : (
