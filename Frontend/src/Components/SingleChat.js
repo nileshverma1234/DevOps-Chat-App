@@ -7,10 +7,13 @@ import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
-import UpdateGroupChatModal from "./miscellaneous/UpdatedGroupChatModal";
+import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
 import { FormControl } from "@chakra-ui/form-control";
 import "./styles.css";
+import io from "socket.io-client";
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -19,9 +22,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+
   const toast = useToast();
 
-  const {selectedChat, setSelectedChat,user } = ChatState();
+  const { selectedChat, setSelectedChat, user } = ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -40,6 +44,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -53,8 +59,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        //give notif
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   const sendMessage = async (event) => {
     if (event.key == "Enter" && newMessage) {
@@ -66,6 +93,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
 
+        setNewMessage("");
         const { data } = await axios.post(
           "/api/message",
           {
@@ -77,7 +105,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         console.log(data);
 
-        setNewMessage("");
+        socket.emit("new message", data);
+
+        // setNewMessage("");
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -154,8 +184,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                 <ScrollableChat messages={messages} />
-              </div>  
+                <ScrollableChat messages={messages} />
+              </div>
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
