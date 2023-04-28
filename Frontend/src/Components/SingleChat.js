@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/layout";
-import { IconButton, Spinner, useToast, Input, effect } from "@chakra-ui/react";
+import { IconButton, Spinner, useToast, Input} from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
@@ -32,13 +32,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer" + user.token,
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
       };
       setLoading(true);
       const { data } = await axios.get(
-        "/api/message/" + selectedChat._id,
+        `/api/message/${selectedChat._id}`,
         config
       );
 
@@ -90,13 +90,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const sendMessage = async (event) => {
-    if (event.key == "Enter" && newMessage) {
+    if (event.key === "Enter" && newMessage) {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer" + user.token,
+            Authorization: `Bearer ${user.token}`,
           },
         };
 
@@ -105,17 +105,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           "/api/message",
           {
             content: newMessage,
-            chatId: selectedChat._id,
+            chatId: selectedChat,
           },
           config
         );
 
 
         socket.emit("new message", data);
-
-        // setNewMessage("");
         setMessages([...messages, data]);
       } catch (error) {
+        console.log(error);
         toast({
           title: "Error Occured!",
           description: "Failed to send the Message",
@@ -151,7 +150,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }, timerLength);
   };
-  // const { user, selectedChat, setSelectedChat } = ChatState();
+
+
   return (
     <>
       {selectedChat ? (
