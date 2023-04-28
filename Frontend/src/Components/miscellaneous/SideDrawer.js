@@ -29,6 +29,7 @@ import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import UserListItem from "../userAvatar/UserListItem";
+import { getSender } from "../../config/ChatLogics";
 
 
 const SideDrawer = () => {
@@ -42,6 +43,8 @@ const SideDrawer = () => {
     user,
     chats,
     setChats,
+    notification, 
+    setNotification,
   } = ChatState();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -149,7 +152,18 @@ const SideDrawer = () => {
           <MenuButton p={1}>
             <BellIcon fontSize="2xl" m={1} />
           </MenuButton>
-
+          <MenuList pl={2}>
+            {!notification.length && "No New Messeges"}
+            {notification.map(notif=>(
+              <MenuItem key={notif._id} onClick={()=>{
+                setSelectedChat(notif.chat)
+                setNotification(notification.filter((n) => n !== notif));
+              }}>
+                {notif.chat.isGroupChat?`New Message in ${notif.chat.chatName}`
+                :`New Message from ${getSender(user,notif.chat.users)}`}
+              </MenuItem>
+            ))}
+          </MenuList>
         </Menu>
         <Menu>
           <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
