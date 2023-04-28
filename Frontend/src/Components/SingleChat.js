@@ -8,9 +8,10 @@ import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdatedGroupChatModal";
-
+import ScrollableChat from "./ScrollableChat";
 import { FormControl } from "@chakra-ui/form-control";
 import "./styles.css";
+
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+  const {selectedChat, setSelectedChat,user } = ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -59,7 +62,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const config = {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer ${user.token}",
+            Authorization: "Bearer" + user.token,
           },
         };
 
@@ -93,7 +96,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     setNewMessage(e.target.value);
     //Typing Indicator logic
   };
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  // const { user, selectedChat, setSelectedChat } = ChatState();
   return (
     <>
       {selectedChat ? (
@@ -150,7 +153,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-              <div className="messages">{/* message */}</div>
+              <div className="messages">
+                 <ScrollableChat messages={messages} />
+              </div>  
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
