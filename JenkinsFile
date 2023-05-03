@@ -50,8 +50,8 @@ pipeline {
 
          stage('Start container') {
              steps {
-                 sh 'docker build ./'
-                 sh 'docker run -p 3000:3000 <image ID>'
+                 sh 'docker build -t front:latest -f /Frontend/ .'
+                 sh 'docker run -p 3000:3000 front:latest'
                  
              }
          }
