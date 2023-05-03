@@ -50,7 +50,7 @@ pipeline {
 
          stage('Start container') {
              steps {
-                 sh 'docker build -t front:latest -f /Frontend/ .'
+                 sh 'docker build -t front:latest Frontend/.'
                  sh 'docker run -p 3000:3000 front:latest'
                  
              }
