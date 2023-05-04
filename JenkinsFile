@@ -50,8 +50,10 @@ pipeline {
 
          stage('Start container') {
              steps {
+                 sh 'docker rm -f frontend'
                  sh 'docker build -t front:latest Frontend/.'
-                 sh 'docker run -d -p 3000:3000 front:latest'
+                 sh 'docker run -d -p 3000:3000 --name=frontend front:latest'
+                 sh 'docker rmi -f front:latest'
                  
              }
          }
