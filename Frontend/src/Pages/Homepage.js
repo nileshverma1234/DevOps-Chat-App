@@ -11,22 +11,21 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import Login from "../components/Authentication/Login";
-import Signup from "../components/Authentication/Signup";
+import Login from "../Components/Authentication/Login";
+import Signup from "../Components/Authentication/Signup";
 
 const Homepage = () => {
   const history = useHistory();
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+   useEffect(() => {
+    // const user = JSON.parse(localStorage.getItem("userInfo"));
 
-    if (!userInfo) {
-      history.push("/chats");
-    }
+    // if (user) history.push("/chats");
   }, [history]);
+
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="center"
         p={3}
         bg={"white"}
@@ -35,7 +34,7 @@ const Homepage = () => {
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text fontsize="4xl" fontFamily="work-sans" color="black">
+        <Text fontSize="4xl" fontFamily="work-sans" color="black">
           Chat Application
         </Text>
       </Box>
